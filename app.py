@@ -170,18 +170,18 @@ def home():
 
 @app.get("/ask")
 def ask(q: str):
-    """السؤال الرئيسي · وهاد اللي بيفحصه الفاحص."""
     جواب, مصادر = جاوب(q)
-    if not جواب:
-    raise HTTPException(
-        status_code=404,
-        detail={
-            "message": f"ما لقيت جواب لـ: {q}",
-            "suggestions": list(المعرفة.keys())[:5],
-        },
-    )
-    return {"question": q, "answer": جواب, "sources": مصادر}
 
+    if not جواب:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "message": f"ما لقيت جواب لـ: {q}",
+                "suggestions": list(المعرفة.keys())[:5],
+            },
+        )
+
+    return {"question": q, "answer": جواب, "sources": مصادر}
 
 @app.get("/health")
 def health(response: Response):
