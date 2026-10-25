@@ -90,6 +90,8 @@ API_KEY = os.environ.get("MODEL_API_KEY", "")
     ),
 }
 
+عداد_المواضيع = {}
+
 def طبّع(س: str) -> str:
     س = re.sub(r"[أإآ]", "ا", س)
     س = س.replace("ة", "ه").replace("ى", "ي")
@@ -103,6 +105,7 @@ def جاوب(سؤال: str):
 
     for مفتاح, (جواب, مصادر) in المعرفة.items():
         if طبّع(مفتاح) in س:
+            عداد_المواضيع[مفتاح] = عداد_المواضيع.get(مفتاح, 0) + 1
             return جواب, مصادر
 
     return "", []
@@ -227,4 +230,5 @@ def metrics():
         "latency_ms_avg": round(عدادات["latency_ms_sum"] / ن, 2) if ن else 0,
         "latency_ms_max": round(عدادات["latency_ms_max"], 2),
         "by_path": dict(حسب_المسار),
+        "by_topic": dict(عداد_المواضيع),
     }
