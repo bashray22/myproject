@@ -172,9 +172,18 @@ def home():
 def ask(q: str):
     """السؤال الرئيسي · وهاد اللي بيفحصه الفاحص."""
     جواب, مصادر = جاوب(q)
+    # if not جواب:
+    #     raise HTTPException(status_code=404,
+    #                         detail=f"ما لقيت جواب لـ: {q}")
+
     if not جواب:
-        raise HTTPException(status_code=404,
-                            detail=f"ما لقيت جواب لـ: {q}")
+    raise HTTPException(
+        status_code=404,
+        detail={
+            "message": f"ما لقيت جواب لـ: {q}",
+            "suggestions": list(المعرفة.keys())[:5],
+        },
+    )
     return {"question": q, "answer": جواب, "sources": مصادر}
 
 
